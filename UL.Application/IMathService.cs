@@ -2,6 +2,6 @@
 {
     public interface IMathService
     {
-        double EvaluateExpression(string expression);
+        double EvaluateExpression(string? expression);
     }
 }

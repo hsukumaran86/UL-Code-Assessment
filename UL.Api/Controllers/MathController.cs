@@ -27,10 +27,12 @@ namespace UL.Api.Controllers
         {
             try
             {
-                if (mathExpression == null || string.IsNullOrEmpty(mathExpression.Expression))
+                if (!ModelState.IsValid)
                 {
-                    _logger.LogError("Input Expression is Null");
-                    return BadRequest("Invalid expression");
+                    // Model validation failed;
+                    _logger.LogError("Input Expression is invalid");
+                    // return a bad request with validation errors.
+                    return BadRequest(ModelState);
                 }
                 else
                 {
