@@ -57,7 +57,7 @@ namespace UL.Api.Controllers
             catch (FormatException ex)
             {
                 _logger.LogError(ex, "Invalid expression format: {Expression}", mathExpression.Expression);
-                return BadRequest("Invalid expression format. Please provide a valid mathematical expression.");
+                return BadRequest("Invalid expression format.");
             }
             catch (DivideByZeroException ex)
             {
@@ -68,7 +68,7 @@ namespace UL.Api.Controllers
             {
                 _logger.LogError(ex, "An unexpected error occurred while evaluating expression: {Expression}",
                     mathExpression.Expression);
-                return StatusCode(500, "An unexpected error occurred. Please contact support.");
+                return StatusCode(500, "An unexpected error occurred.");
             }
         }
     }
