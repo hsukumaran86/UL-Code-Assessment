@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using UL.Application;
 using UL.Domain;
-using UL.Infrastructure;
+using UL.Infrastructure.Cache;
 
 namespace UL.Api.Controllers
 {
@@ -9,6 +10,7 @@ namespace UL.Api.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
+    [EnableRateLimiting("fixed")]
     public class MathController : ControllerBase
     {
         private readonly IMathService _mathService;

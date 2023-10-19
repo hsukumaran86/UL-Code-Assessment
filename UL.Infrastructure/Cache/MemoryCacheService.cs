@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 
-namespace UL.Infrastructure
+namespace UL.Infrastructure.Cache
 {
 
     public class MemoryCacheService : ICacheService

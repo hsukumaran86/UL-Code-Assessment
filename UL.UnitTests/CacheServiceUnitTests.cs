@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using System;
-using UL.Infrastructure;
+using UL.Infrastructure.Cache;
 using Xunit;
 
 namespace UL.UnitTests

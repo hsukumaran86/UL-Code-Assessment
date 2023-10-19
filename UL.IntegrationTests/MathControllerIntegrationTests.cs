@@ -88,6 +88,27 @@ namespace UL.IntegrationTests
             // Your specific assertions here
             Assert.Contains("Invalid expression format", responseContent);
         }
-    }
 
+        [Fact]
+        public async Task TestRateLimitingExceedLimit_Returns429()
+        {
+            // Arrange
+            var client = _factory.CreateClient();
+            var expression = new
+            {
+                Expression = "2+5" 
+            };
+
+            var content = new StringContent(JsonSerializer.Serialize(expression), Encoding.UTF8, "application/json");
+            // Send multiple requests to exceed the rate limit
+            for (int i = 0; i < 11; i++)
+            {
+                 var responseContent = await client.PostAsync("/api/v1/math/evaluate", content);
+            }
+
+            // Send one more request to trigger rate limiting
+            var response = await  client.PostAsync("/api/v1/math/evaluate", content);
+            Assert.Equal(HttpStatusCode.ServiceUnavailable, response.StatusCode);
+        }
+    }
 }

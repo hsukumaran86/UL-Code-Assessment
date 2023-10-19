@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using UL.Application;
-using UL.Infrastructure;
+using UL.Infrastructure.Cache;
 
 namespace UL.Api
 {
@@ -17,12 +19,27 @@ namespace UL.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = 32_768; // Set your desired limit in bytes (e.g., 32KB)
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Math Expression Evaluator", Version = "v1" });
             });
 
             services.AddMemoryCache();
+
+            services.AddRateLimiter(_ => _
+                .AddFixedWindowLimiter(policyName: "fixed", options =>
+                {
+                    options.PermitLimit = 12;
+                    options.Window = TimeSpan.FromSeconds(5);
+                    options.QueueLimit = 0;
+
+                }));
+
 
             services.AddApiVersioning(options =>
             {
@@ -65,6 +82,8 @@ namespace UL.Api
             app.UseRouting();
 
             app.UseAuthorization();
+            // Rate limiting middleware
+            app.UseRateLimiter();
 
             app.UseEndpoints(endpoints =>
             {
