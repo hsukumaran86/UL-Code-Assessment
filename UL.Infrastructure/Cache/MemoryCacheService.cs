@@ -27,7 +27,7 @@ namespace UL.Infrastructure.Cache
             _cache.Set(key, value, cacheEntryOptions);
         }
 
-        public bool TryGetValue<T>(string key, out T value)
+        public bool TryGetValue<T>(string key, out T? value)
         {
             return _cache.TryGetValue(key, out value);
         }

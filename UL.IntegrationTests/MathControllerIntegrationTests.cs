@@ -63,7 +63,6 @@ namespace UL.IntegrationTests
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
             var responseContent = await response.Content.ReadAsStringAsync();
 
-            // Your specific assertions here
             Assert.Contains("Division by zero is not allowed.", responseContent);
         }
 
@@ -85,7 +84,6 @@ namespace UL.IntegrationTests
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
             var responseContent = await response.Content.ReadAsStringAsync();
 
-            // Your specific assertions here
             Assert.Contains("Invalid expression format", responseContent);
         }
 

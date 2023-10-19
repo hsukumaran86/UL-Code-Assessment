@@ -5,7 +5,7 @@ namespace UL.Application
 
     public class MathService :IMathService
     {
-        public double EvaluateExpression(string expression)
+        public double EvaluateExpression(string? expression)
         {
             
                 DataTable table = new DataTable();
