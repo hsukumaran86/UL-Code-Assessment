@@ -14,23 +14,26 @@ Utilizes a service for expression evaluation.
 
 ### Infrastructure Layer:
 In-Memory caching for results is handled in the Infrastructure layer.
-Caching is employed to improve response times by storing previously evaluated expressions.
 
 ### Logging with Serilog:
 Serilog is used for logging to track application events and errors.
-Log files provide insights into system behavior.
 
 ### Exception Handling:
-Exception handling is implemented to provide meaningful error responses to clients.
-Ensures graceful degradation of service in the face of exceptions.
+Exception handling is implemented primarily at the controller level to provide meaningful error responses to clients.
+Since this is single service and all errors could be handled at controller, Global error handling is implemented.
 
 ### API Versioning:
-Versioning is implemented to manage backward compatibility with existing clients.
-Supports multiple API versions to accommodate changes in future releases.
+Versioning is implemented, the current API Version is v1.
 
 ### Swagger Documentation:
 Swagger is integrated to provide interactive API documentation.
 Allows users to explore and test API endpoints with ease.
+
+### Input Validation
+Input validation is implemented to restrict the size of the request and to ensure that the request is valid.
+
+### Rate limit
+A fixed window rate limiter policy is applied, allowing 10 requests per second.
 
 ## Key Components:
 
@@ -40,12 +43,11 @@ Handles input validation and response formatting.
 Includes support for API versioning and Swagger documentation.
 
 ### MathService (Application Layer):
-Evaluates mathematical expressions using a custom evaluator.
 Implements the core business logic for expression evaluation.
 
 ### CacheService (Infrastructure Layer):
 Manages an in-memory cache for storing and retrieving previously evaluated results.
-Enhances response times by avoiding redundant evaluations.
+
 
 ## Testing 
 
