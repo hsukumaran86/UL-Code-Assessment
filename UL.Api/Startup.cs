@@ -34,8 +34,8 @@ namespace UL.Api
             services.AddRateLimiter(_ => _
                 .AddFixedWindowLimiter(policyName: "fixed", options =>
                 {
-                    options.PermitLimit = 12;
-                    options.Window = TimeSpan.FromSeconds(5);
+                    options.PermitLimit = 10;
+                    options.Window = TimeSpan.FromSeconds(1);
                     options.QueueLimit = 0;
 
                 }));
