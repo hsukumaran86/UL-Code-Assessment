@@ -9,7 +9,7 @@ namespace UL.Application
     {
         public double EvaluateExpression(string? expression)
         {
-            var pattern = @"^(\d+[-+*\/]?)+\d+$";
+            var pattern = @"^(\d+[-+*\/]?)+\d+$|^\d+$";
             if (!string.IsNullOrEmpty(expression) && Regex.IsMatch(expression, pattern))
             {
                 try
@@ -81,7 +81,15 @@ namespace UL.Application
                     default:
                         if (i == 0)
                         {
-                            accumulator = Convert.ToDouble(elements[i].ToString());
+                            if (IsNotANumber(elements[i]))
+                            {
+                                accumulator = EvaluateTokens(GetTokens(elements[i], multandiv));
+                            }
+                            else
+                            {
+                                accumulator = Convert.ToDouble(elements[i]);
+                            }
+                            
 
                         }
                         break;
@@ -89,6 +97,20 @@ namespace UL.Application
                
             }
             return accumulator;
+        }
+
+        private bool IsNotANumber(string input)
+        {
+            if (int.TryParse(input, out int result))
+            {
+                // The input is a valid integer
+                return false;
+            }
+            else
+            {
+                // The input is not a valid integer
+                return true;
+            }
         }
     }
 }

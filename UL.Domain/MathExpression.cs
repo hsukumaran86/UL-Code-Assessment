@@ -5,7 +5,7 @@ namespace UL.Domain
     public class MathExpression
     {
         [Required]
-        [RegularExpression(@"^(\d+[-+*\/]?)+\d+$", ErrorMessage = "Invalid expression format.")]
+        [RegularExpression(@"^(\d+[-+*\/]?)+\d+$|^\d+$", ErrorMessage = "Invalid expression format.")]
         public string? Expression { get; set; }
     }
 }
