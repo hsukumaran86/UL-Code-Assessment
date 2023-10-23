@@ -1,41 +1,94 @@
 ﻿using System.Data;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace UL.Application
 {
 
-    public class MathService :IMathService
+    public class MathService : IMathService
     {
         public double EvaluateExpression(string? expression)
         {
-            
-                DataTable table = new DataTable();
-                
-                object result ;
-                try 
+            var pattern = @"^(\d+[-+*\/]?)+\d+$";
+            if (!string.IsNullOrEmpty(expression) && Regex.IsMatch(expression, pattern))
+            {
+                try
                 {
-                    result = table.Compute(expression, "");
+                    return EvaluateTokens(GetTokens(expression, new List<char> { '+', '-' }));
                 }
-                catch (Exception )
+                catch (Exception)
                 {
-                    throw new FormatException("Invalid input expression");
-                }
 
-                if (result == null || result == DBNull.Value)
-                {
-                    throw new FormatException("Invalid input expression");
+                    throw;
                 }
-                else if (double.IsInfinity(Convert.ToDouble(result))) {
+            }
+            else
+            {
+                throw new FormatException("Invalid expression format.");
+            }
 
-                    throw new DivideByZeroException("Division by zero not allowed");
+
+        }
+        private List<string> GetTokens(string expression, List<char> operators)
+        {
+            List<string> elments = new List<string>();
+            StringBuilder currentTerm = new StringBuilder();
+            foreach (char c in expression)
+            {
+
+
+                if (operators.Contains(c))
+                {
+                    elments.Add(currentTerm.ToString());
+                    currentTerm.Clear();
+                    elments.Add(c.ToString());
 
                 }
                 else
                 {
-                    return Convert.ToDouble(result);
+                    currentTerm.Append(c);
                 }
-           
+            }
+            elments.Add(currentTerm.ToString());
+            return elments;
+        }
 
+        private double EvaluateTokens (List<string> elements)
+        {
+            double accumulator = 0;
+            List<char> multandiv = new List<char> { '*', '/' };
+            for (int i = 0; i < elements.Count; i++)
+            {
+                
+                switch (elements[i])
+                {
+                    case "*":
+                        accumulator *= Convert.ToDouble(elements[i + 1]);
+                        break;
+                    case "/":
+                        if(elements[i + 1] == "0")
+                        {
+                            throw new DivideByZeroException("Division by zero not allowed");
+                        }
+                        accumulator /= Convert.ToDouble(elements[i + 1]);
+                        break;
+                    case "+":
+                        accumulator += EvaluateTokens(GetTokens(elements[i + 1], multandiv));
+                        break;
+                    case "-":
+                        accumulator -= EvaluateTokens(GetTokens(elements[i + 1], multandiv));
+                        break;
+                    default:
+                        if (i == 0)
+                        {
+                            accumulator = Convert.ToDouble(elements[i].ToString());
+
+                        }
+                        break;
+                }
+               
+            }
+            return accumulator;
         }
     }
-    
 }
