@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.OpenApi.Models;
 using Serilog;
-using UL.Application;
+using UL.Application.Math;
 using UL.Infrastructure.Cache;
 
 namespace UL.Api

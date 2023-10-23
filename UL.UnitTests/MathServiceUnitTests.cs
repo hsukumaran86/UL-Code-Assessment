@@ -1,5 +1,6 @@
 using System;
 using UL.Application;
+using UL.Application.Math;
 using Xunit;
 
 namespace UL.UnitTests

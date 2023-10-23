@@ -1,4 +1,4 @@
-﻿namespace UL.Application
+﻿namespace UL.Application.Math
 {
     public interface IMathService
     {

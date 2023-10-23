@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace UL.Application
+namespace UL.Application.Math
 {
 
     public class MathService : IMathService
@@ -12,9 +12,9 @@ namespace UL.Application
             var pattern = @"^(\d+[-+*\/]?)+\d+$|^\d+$";
             if (!string.IsNullOrEmpty(expression) && Regex.IsMatch(expression, pattern))
             {
-               
-                 return EvaluateTokens(GetTokens(expression, new List<char> { '+', '-' }));
-               
+
+                return EvaluateTokens(GetTokens(expression, new List<char> { '+', '-' }));
+
             }
             else
             {
@@ -47,20 +47,20 @@ namespace UL.Application
             return elments;
         }
 
-        private double EvaluateTokens (List<string> elements)
+        private double EvaluateTokens(List<string> elements)
         {
             double accumulator = 0;
             List<char> multandiv = new List<char> { '*', '/' };
             for (int i = 0; i < elements.Count; i++)
             {
-                
+
                 switch (elements[i])
                 {
                     case "*":
                         accumulator *= Convert.ToDouble(elements[i + 1]);
                         break;
                     case "/":
-                        if(elements[i + 1] == "0")
+                        if (elements[i + 1] == "0")
                         {
                             throw new DivideByZeroException("Division by zero not allowed");
                         }
@@ -83,12 +83,12 @@ namespace UL.Application
                             {
                                 accumulator = Convert.ToDouble(elements[i]);
                             }
-                            
+
 
                         }
                         break;
                 }
-               
+
             }
             return accumulator;
         }

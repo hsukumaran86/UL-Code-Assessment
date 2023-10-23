@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
-using UL.Application;
+using UL.Application.Math;
 using UL.Domain;
 using UL.Infrastructure.Cache;
 
