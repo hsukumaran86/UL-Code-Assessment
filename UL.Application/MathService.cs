@@ -12,15 +12,9 @@ namespace UL.Application
             var pattern = @"^(\d+[-+*\/]?)+\d+$|^\d+$";
             if (!string.IsNullOrEmpty(expression) && Regex.IsMatch(expression, pattern))
             {
-                try
-                {
-                    return EvaluateTokens(GetTokens(expression, new List<char> { '+', '-' }));
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
+               
+                 return EvaluateTokens(GetTokens(expression, new List<char> { '+', '-' }));
+               
             }
             else
             {
