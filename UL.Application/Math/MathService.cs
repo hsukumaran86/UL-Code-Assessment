@@ -75,13 +75,15 @@ namespace UL.Application.Math
                     default:
                         if (i == 0)
                         {
-                            if (IsNotANumber(elements[i]))
+                            if (int.TryParse(elements[i], out _))
                             {
-                                accumulator = EvaluateTokens(GetTokens(elements[i], multandiv));
+                                accumulator = Convert.ToDouble(elements[i]);
+
                             }
                             else
                             {
-                                accumulator = Convert.ToDouble(elements[i]);
+                                accumulator = EvaluateTokens(GetTokens(elements[i], multandiv));
+
                             }
 
 
@@ -91,20 +93,6 @@ namespace UL.Application.Math
 
             }
             return accumulator;
-        }
-
-        private bool IsNotANumber(string input)
-        {
-            if (int.TryParse(input, out int result))
-            {
-                // The input is a valid integer
-                return false;
-            }
-            else
-            {
-                // The input is not a valid integer
-                return true;
-            }
         }
     }
 }
